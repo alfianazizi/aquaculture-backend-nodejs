@@ -10,11 +10,11 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  console.log(req.body);
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   const device = await Device.findOne(req.body.deviceId);
-  console.log(device);
   if (!device) return res.status(400).send("Invalid device.");
 
   let sensor = new Sensor({

@@ -6,7 +6,7 @@ const app = express();
 
 mongoose
   .connect(
-    "mongodb+srv://spt-aquaculture:admin123qwe@democlusterazizi-wy1r4.mongodb.net/test?retryWrites=true&w=majority",
+    "mongodb+srv://spt-aquaculture:admin123qwe@democlusterazizi-wy1r4.mongodb.net/spt?retryWrites=true&w=majority",
     { useNewUrlParser: true }
   )
   .then(() => console.log("Connected to MongoDB..."))
