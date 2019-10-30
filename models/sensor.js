@@ -5,8 +5,8 @@ const { deviceSchema } = require("./device");
 const Sensor = mongoose.model(
   "Sensors",
   new mongoose.Schema({
-    device: {
-      type: deviceSchema,
+    waterTemp: {
+      type: Number,
       required: true
     },
     airTemp: {
@@ -21,7 +21,7 @@ const Sensor = mongoose.model(
       type: Number,
       required: true
     },
-    uv: {
+    oxygen: {
       type: Number,
       required: true
     },
@@ -33,6 +33,7 @@ const Sensor = mongoose.model(
       type: Number,
       required: true
     },
+    device: { type: mongoose.Schema.Types.ObjectId, ref: "Device" },
     timeStamp: {
       type: Date,
       default: Date.now
@@ -43,12 +44,13 @@ const Sensor = mongoose.model(
 function validateSensor(sensor) {
   const schema = {
     airTemp: Joi.number().required(),
+    waterTemp: Joi.number().required(),
     ph: Joi.number().required(),
     salinity: Joi.number().required(),
-    uv: Joi.number().required(),
+    oxygen: Joi.number().required(),
     windDirection: Joi.number().required(),
     windSpeed: Joi.number().required(),
-    deviceId: Joi.object().required()
+    deviceId: Joi.string().required()
   };
 
   return Joi.validate(sensor, schema);
