@@ -3,6 +3,50 @@ const { Device } = require("../models/device");
 const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
+const moment = require("moment");
+
+router.get("/daily", async (req, res) => {
+  const endOfToday = moment().endOf("day");
+  const startOfToday = moment().startOf("day");
+  try {
+    const sensors = await Sensor.find({
+      timeStamp: {
+        $lt: endOfToday,
+        $gt: startOfToday
+      }
+    })
+      .populate("device", "deviceId")
+      .sort("-timeStamp");
+    res.send(sensors);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/monthly", async (req, res) => {
+  const date = new Date();
+  try {
+    const sensors = await Sensor.find({
+      timeStamp: {
+        $lt: new Date(date.getFullYear(), date.getMonth() + 1, 0),
+        $gt: new Date(date.getFullYear(), date.getMonth(), 1)
+      }
+    })
+      .populate("device", "deviceId")
+      .sort("-timeStamp");
+    res.send(sensors);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/current", async (req, res) => {
+  const sensors = await Sensor.find()
+    .populate("device", "deviceId")
+    .sort("-timeStamp")
+    .limit(1);
+  res.send(sensors);
+});
 
 router.get("/", async (req, res) => {
   const sensors = await Sensor.find()

@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.16.2",
     "joi": "^13.1.0",
+    "moment": "^2.24.0",
     "mongoose": "^5.7.1",
     "nodemon": "^1.19.2"
   }
